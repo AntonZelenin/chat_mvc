@@ -1,0 +1,119 @@
+html, body {
+    background-color: #edeff4;
+    margin: 0;
+    position: relative;
+    height: 100%;
+
+}
+
+.header {
+    height: 50px;
+    margin: 0 auto;
+    background-color: #596789;
+}
+
+.main {
+    width: 900px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+
+}
+
+.chat, .dialogs {
+    background-color: #fcfcfc;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+
+}
+
+.chat {
+    width: 70%;
+    float: right;
+}
+
+.dialogs {
+    width: 29.5%;
+    float: left;
+}
+
+.dialogs-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-link-div {
+    height: 100%;
+    width: 30%;
+}
+
+/*.home-link-div:hover {
+    background-color: #4c566d;
+}*/
+
+.home-link {
+    height: 100%;
+    float: left;
+    margin-left: 15%;
+    display: flex;
+    align-items: center;
+}
+
+a:link.home-link, a:visited.home-link {
+    font-size: 30px;
+    color: #f2f7ff;
+    text-decoration: none;
+}
+
+.user {
+    height: 60px;
+    cursor: pointer;
+}
+
+.user:hover {
+    background-color: #e8e9ed;
+}
+
+.img-circle {
+    position: relative;
+    float: left;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin: 7px;
+    margin-left: 15px;
+}
+
+.user-name {
+    position: relative;
+    top: 9px;
+}
+
+.message-short {
+    position: relative;
+    color: #3d3d3d;
+    top: 15px;
+}
+
+.chat-empty {
+    position: relative;
+    margin-top: 40%;
+    text-align: center;
+    font-size: 24px;
+    color: grey;
+}
+
+#searchbox {
+    position: relative;
+    width: 90%;
+    height: 30px;
+    margin: 5%;
+}
+
+#logout {
+    position: relative;
+    float: right;
+    height: 100%;
+    width: 100px;
+}
