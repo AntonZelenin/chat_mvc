@@ -1,21 +1,3 @@
-<?php
-if(!empty($_COOKIE['user_cookie'])){
-    require_once ($_SERVER['DOCUMENT_ROOT'].'\classes\auth.php');
-
-    $cookie_checker = new Cookie_Checker(new Database_PDO);
-
-    // $user_cookie = $guard->make_safe_string($_COOKIE['user_cookie']);
-    $user_cookie = $_COOKIE['user_cookie'];
-
-    // echo $cookie_checker->is_valid_cookie($user_cookie); die;
-
-    if(!$cookie_checker->is_valid_cookie($user_cookie)){
-        header("Location: /tpl/flex_auth.php");
-    }
-}
-
- ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,7 +14,8 @@ if(!empty($_COOKIE['user_cookie'])){
         <div class="header" id="header">
             <input type="button" id="logout" onclick="logout()" value="Log out" />
             <div class="home-link-div">
-                <a class="home-link" href="http://chat.php/tpl/home.php">@chat :)</a>
+                <a class="home-link" href="#">@chat :)</a>
+                <!-- href="http://chat.php/tpl/home.php" -->
             </div>
 
         </div>

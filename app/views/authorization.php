@@ -1,26 +1,9 @@
-<?php
-
-if(!empty($_COOKIE['user_cookie'])){
-    require_once ($_SERVER['DOCUMENT_ROOT'].'\classes\auth.php');
-
-    $cookie_checker = new Cookie_Checker(new Database_PDO);
-
-    // $user_cookie = $guard->make_safe_string($_COOKIE['user_cookie']);
-    $user_cookie = $_COOKIE['user_cookie'];
-
-    if($cookie_checker->is_valid_cookie($user_cookie)){
-        header("Location: /tpl/home.php");
-    }
-}
-
- ?>
-
-<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
 <html>
     <head>
         <title>Home | @chat :)</title>
-        <script src="/lib/jquery-3.2.1.js"></script>
-        <link rel="stylesheet"  href="/css/flex.css" />
+        <script src="c:/wamp64/www/chat_mvc/app/js/jquery-3.2.1.js"></script>
+        <link rel="stylesheet"  href="c:/wamp64/www/chat_mvc/public/css/authorization.css" />
 
     </head>
 

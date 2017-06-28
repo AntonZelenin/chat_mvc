@@ -1,0 +1,17 @@
+<?php
+
+class LoginToId
+{
+    private $database_connection;
+
+    public function __construct(Database_PDO $database) {
+        $this->database_connection = $database->get_connection();
+    }
+
+    public function get_user_id_by_login($login){
+        $query = $this->database_connection->prepare("SELECT rowid FROM chat_users WHERE login=:login");
+        $query->execute(array('login' => $login));
+
+        return $query->fetchColumn();
+    }
+}
