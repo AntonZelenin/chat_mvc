@@ -10,7 +10,7 @@ class LoginChecker
     }
 
     public function is_login_available(string $login) : bool {
-        $query = $this->database_connection->prepare("SELECT COUNT(rowid) FROM chat_passwords WHERE user_id=(SELECT rowid FROM chat_users WHERE login=:login)");
+        $query = $this->database_connection->prepare("SELECT COUNT(id) FROM chat_passwords WHERE user_id=(SELECT rowid FROM chat_users WHERE login=:login)");
         $query->execute(array('login' => $login));
 
         return ($query->fetchColumn() == 0) ? true: false;

@@ -13,7 +13,7 @@ class CookieAssigner
     }
 
     //выполняет два действия, нарушает правило. потому что они ОБЯЗАТЕЛЬНО должны выполняться в паре. норм?)
-    public function set_cookie_and_add_to_db(User_Cookie $user_cookie)
+    public function set_cookie_and_add_to_db(UserCookie $user_cookie)
     {
         setcookie('user_cookie', $user_cookie->get_cookie(), $user_cookie->get_expires_timestamp(), '/');
 
@@ -37,7 +37,7 @@ class CookieAssigner
     //     $this->database_connection = $database->get_connection();
     // }
 
-    private function add_cookie_to_db(User_Cookie $cookie)
+    private function add_cookie_to_db(UserCookie $cookie)
     {
         $query = $this->database_connection->prepare('INSERT INTO chat_cookies (user_id, token, expires) VALUES (:user_id, :token, FROM_UNIXTIME(:expires))');
         $query->execute(array('user_id' => $cookie->get_user_id(), 'token' => $cookie->get_token_sha256(), 'expires' => $cookie->get_expires_timestamp()));
@@ -45,7 +45,7 @@ class CookieAssigner
 
     private function remove_cookie_from_db(string $cookie)
     {
-        $cookie_parser = new User_Cookie_Parser;
+        $cookie_parser = new UserCookieParser;
         $user_id = $cookie_parser->get_user_id($cookie);
         $token = $cookie_parser->get_user_token($cookie);
 

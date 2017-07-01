@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Home | @chat :)</title>
-        <script src="c:/wamp64/www/chat_mvc/app/js/jquery-3.2.1.js"></script>
-        <link rel="stylesheet"  href="c:/wamp64/www/chat_mvc/public/css/authorization.css" />
+        <script src="\app\js\jquery-3.2.1.js"></script>
+        <link rel="stylesheet"  href="\public\css\login.css" />
 
     </head>
 
@@ -73,37 +73,12 @@
 
 <script>
 
-    // function foo(id){
-    //     if(id == 'auth'){
-    //         login = document.getElementById('login').value;
-    //         password = document.getElementById('password').value;
-    //         path = 'scripts/authenticate.php';
-    //     }else{
-    //         login = document.getElementById('reg_login').value;
-    //         password = document.getElementById('reg_password').value;
-    //         path = 'scripts/sign_up.php'
-    //     }
-    //
-    //
-    //     $.post(
-    //         path,
-    //         {
-    //             login: login,
-    //             password: password
-    //         },
-    //         function(respond){
-    //
-    //         }
-    //     );
-    // }
-
     function auth(){
         login = document.getElementById('login').value;
         password = document.getElementById('password').value;
 
         $.post(
-            '/scripts/authenticate.php',
-
+            '\\public\\login',
             {
                 login: login,
                 password: password
@@ -167,7 +142,7 @@
         }
 
         $.post(
-            '/scripts/sign_up.php',
+            '\\public\\login',
             {
                 reg_login: reg_login,
                 reg_username: reg_username,

@@ -10,8 +10,8 @@ function __autoload($class_name)
     );
 
     foreach ($array_paths as $path) {
-        if (is_file($path)) {
-            require_once ROOT.$path.$class_name.'.php';
+        if (is_file($path.$class_name.'.php')) {
+            require_once $path.$class_name.'.php';
         }
     }
 }

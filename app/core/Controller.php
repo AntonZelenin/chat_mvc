@@ -1,14 +1,15 @@
 <?php
 
 class Controller {
-    function model($model){
+
+    public function model($model){
         require_once '../models/' . $model . '.php';
 
         return new $model();
     }
 
-    function view($view){
-        
+    public function view($view){
+
     }
 }
 

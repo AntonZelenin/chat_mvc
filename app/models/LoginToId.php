@@ -8,8 +8,8 @@ class LoginToId
         $this->database_connection = $database->get_connection();
     }
 
-    public function get_user_id_by_login($login){
-        $query = $this->database_connection->prepare("SELECT rowid FROM chat_users WHERE login=:login");
+    public function id_by_login($login){
+        $query = $this->database_connection->prepare("SELECT id FROM chat_users WHERE login=:login");
         $query->execute(array('login' => $login));
 
         return $query->fetchColumn();

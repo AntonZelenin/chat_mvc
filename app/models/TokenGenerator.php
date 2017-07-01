@@ -2,5 +2,5 @@
 
 abstract class TokenGenerator
 {
-    abstract function get_token(int $length) : string;
+    abstract function generate(int $length) : string;
 }

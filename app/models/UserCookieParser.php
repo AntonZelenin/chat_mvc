@@ -2,7 +2,7 @@
 
 class UserCookieParser
 {
-    public function getUserId($user_cookie)
+    public function get_user_id($user_cookie)
     {
         if (preg_match('/sel(.+)token/', $user_cookie, $temp)) {
             return $temp[1];
@@ -12,7 +12,7 @@ class UserCookieParser
         }
     }
 
-    public function getUserToken($user_cookie)
+    public function get_user_token($user_cookie)
     {
         if (preg_match('/token(.+)/', $user_cookie, $temp)) {
             return $temp[1];

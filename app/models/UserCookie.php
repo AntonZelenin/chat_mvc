@@ -13,7 +13,7 @@ class UserCookie
         $this->token = $token;
         $this->expires_timestamp = $expires_timestamp;
 
-        $user_cookie_creator = new User_Cookie_Creator;
+        $user_cookie_creator = new UserCookieCreator;
         $this->cookie = $user_cookie_creator->create_cookie($user_id, $token);
 
         // $one_month_in_seconds = 60 * 60 * 24 * 30;

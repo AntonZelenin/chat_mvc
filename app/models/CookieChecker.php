@@ -11,7 +11,7 @@ class CookieChecker
 
     public function is_valid_cookie(string $user_cookie) : bool
     {
-        $cookie_parser = new User_Cookie_Parser;
+        $cookie_parser = new UserCookieParser;
         $user_id = $cookie_parser->get_user_id($user_cookie);
         $user_token = $cookie_parser->get_user_token($user_cookie);
 

@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Home | @chat :)</title>
-        <script src="/lib/jquery-3.2.1.js"></script>
-        <link rel="stylesheet"  href="/css/style.css" />
+        <script src="\app\js\jquery-3.2.1.js"></script>
+        <link rel="stylesheet"  href="\public\css\home.css" />
 
     </head>
 
@@ -73,21 +73,11 @@
 
             function logout(){
                 $.ajax({
-                    url : '/scripts/log_out.php',
+                    url : '/public/home',
                     type: 'DELETE',
-                    success: function() {
-                        window.location = '/tpl/flex_auth.php';
-                    }
                 });
 
             }
-
-            // $(document).ready(function(){
-            //     //create a new WebSocket object.
-            // 	var wsUri = "ws://localhost:9000/demo/server.php";
-            // 	websocket = new WebSocket(wsUri);
-            //
-            // }
 
         </script>
 
