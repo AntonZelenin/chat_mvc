@@ -6,11 +6,14 @@ class Home extends Controller
     public function index()
     {
         $database = new Database_PDO;
+        $is_authorized = false;
 
-        $checker = new CookieChecker($database);
+        if (isset($_COOKIE['user_cookie'])) {
+            $checker = new CookieChecker($database);
 
-        $user_cookie = $_COOKIE['user_cookie'];
-        $is_authorized = $checker->is_valid_cookie($user_cookie);
+            $user_cookie = $_COOKIE['user_cookie'];
+            $is_authorized = $checker->is_valid_cookie($user_cookie);
+        }
 
         if (!$is_authorized) {
             header("Location: ..\\public\\login");

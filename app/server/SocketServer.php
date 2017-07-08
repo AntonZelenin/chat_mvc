@@ -1,17 +1,20 @@
 <?php
+define('ROOT', __DIR__.'\\..');
+require_once(ROOT.'\\core\\Autoload.php');
 
 class SocketServer
 {
-    public $socket;
-    public $host = 'localhost'; //host
-    public $port = '9000'; //port
-    public $null = NULL; //null var
-    public $clients = array();
+    private $socket;
+    private const $host = 'localhost'; //host
+    private const $port = '9000'; //port
+    private $clients = array();
+    private $socket_container;
 
     public function __construct()
     {
         //Create TCP/IP sream socket
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+
         //reuseable port
         socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
 
@@ -23,6 +26,7 @@ class SocketServer
 
         //create & add listning socket to the list
         $this->clients[] = $this->socket;
+        $this->resource_container = new ResourceContainer;
     }
 
     public function __destruct()
@@ -33,25 +37,28 @@ class SocketServer
 
     public function start()
     {
-        //start endless loop, so that our script doesn't stop
         while (true) {
         	//manage multipal connections
         	$changed = $this->clients;
 
         	//returns the socket resources in $changed array
-        	socket_select($changed, $null, $null, 0, 10);
+        	socket_select($changed, NULL, NULL, 0, 10);
 
         	//check for new socket
-        	if (in_array($this->socket, $changed)) {
-        		$socket_new = socket_accept($this->socket); //accpet new socket
-        		$this->clients[] = $socket_new; //add socket to client array
+        	if ($this->is_new_socket()) {
+        		$new_socket = socket_accept($this->socket); //accpet new socket
+        		$this->clients[] = $new_socket; //add socket to client array
 
-        		$header = socket_read($socket_new, 1024); //read data sent by the socket
-        		$this->perform_handshaking($header, $socket_new, $this->host, $this->port); //perform websocket handshake
+        		$headers = socket_read($new_socket, 1024); //read data sent by the socket
 
-        		socket_getpeername($socket_new, $ip); //get ip address of connected socket
-        		$response = $this->mask(json_encode(array('type'=>'system', 'message'=>$ip.' connected'))); //prepare json data
-        		$this->send_message($response); //notify all users about new connection
+                $headers = $this->parse_headers($headers);
+
+        		$this->perform_handshaking($headers, $new_socket); //perform websocket handshake
+                // if (!isset($headers['Cookie']) // (new CookieChecker)->is_valid_cookie($headers['Cookie'])) {
+                //     что-то плохое
+                // }
+
+                $this->socket_container->add_socket($new_socket);
 
         		//make room for new socket
         		$found_socket = array_search($this->socket, $changed);
@@ -61,16 +68,14 @@ class SocketServer
         	//loop through all connected sockets
         	foreach ($changed as $changed_socket) {
 
-        		//check for any incomming data
         		while (socket_recv($changed_socket, $buf, 1024, 0) >= 1) {
-        			$received_text = $this->unmask($buf); //unmask data
-        			$tst_msg = json_decode($received_text); //json decode
-        			$user_name = $tst_msg->name; //sender name
-        			$user_message = $tst_msg->message; //message text
-        			$user_color = $tst_msg->color; //color
+        			$received_text = $this->unmask($buf);
+        			$tst_msg = json_decode($received_text);
+        			$user_name = $tst_msg->name;
+        			$user_message = $tst_msg->message;
+                    $user_color = $tst_msg->color;
                     $user_id = $tst_msg->user_id;
 
-        			//prepare data to be sent to client
         			$response_text = $this->mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message, 'color'=>$user_color, 'user_id' => $user_id)));
         			// $this->send_message($response_text); //send data
                     $this->send_message_to_user($user_id, $response_text);
@@ -82,38 +87,73 @@ class SocketServer
                     // check disconnected client
         			// remove client for $this->clients array
         			$found_socket = array_search($changed_socket, $this->clients);
-        			socket_getpeername($changed_socket, $ip);
         			unset($this->clients[$found_socket]);
-
-        			//notify all users about disconnected connection
-        			$response = $this->mask(json_encode(array('type'=>'system', 'message'=>$ip.' disconnected')));
-        			$this->send_message($response);
         		}
         	}
         }
     }
 
-    public function send_message($msg)
+    private function is_new_socket() : bool
+    {
+        return (in_array($this->socket, $changed)) ? true : false;
+    }
+
+    private function parse_headers($recieved_header)
+    {
+        $headers = array();
+        $lines = preg_split("/\r\n/", $recieved_header);
+
+        foreach ($lines as $line) {
+            $line = chop($line);
+
+            if (preg_match('/\A(\S+): (.*)\z/', $line, $matches)) {
+                $headers[$matches[1]] = $matches[2];
+            }
+        }
+
+        return $headers;
+    }
+
+    private function perform_handshaking($receved_header, $client_conn)
+    {
+        $secKey = $headers['Sec-WebSocket-Key'];
+        $secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
+        //hand shaking header
+        $upgrade  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
+        "Upgrade: websocket\r\n" .
+        "Connection: Upgrade\r\n" .
+        "WebSocket-Origin: $this->host\r\n" .
+        "WebSocket-Location: ws://$this->host:$port/demo/shout.php\r\n".
+        "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
+        socket_write($client_conn,$upgrade,strlen($upgrade));
+    }
+
+    private function check_credetenials
+
+    private function send_message($msg)
     {
     	foreach ($this->clients as $changed_socket) {
-    		@socket_write($changed_socket,$msg,strlen($msg));
+    		@socket_write($changed_socket, $msg, strlen($msg));
     	}
 
     	return true;
     }
 
-    public function send_message_to_user($user_id, $msg)
+    private function send_message_to_users($users, $message)
     {
-		@socket_write($this->clients[$user_id], $msg, strlen($msg));
+    	foreach ($users as $user) {
+    		@socket_write($user, $message, strlen($msg));
+        }
 
     	return true;
     }
 
 
     //Unmask incoming framed message
-    public function unmask($text)
+    private function unmask($text)
     {
     	$length = ord($text[1]) & 127;
+
     	if ($length == 126) {
     		$masks = substr($text, 4, 4);
     		$data = substr($text, 8);
@@ -134,7 +174,7 @@ class SocketServer
     }
 
     //Encode message for transfer to client.
-    public function mask($text)
+    private function mask($text)
     {
     	$b1 = 0x80 | (0x1 & 0x0f);
     	$length = strlen($text);
@@ -150,30 +190,6 @@ class SocketServer
     	return $header.$text;
     }
 
-    //handshake new client.
-    public function perform_handshaking($receved_header,$client_conn, $host, $port)
-    {
-    	$headers = array();
-    	$lines = preg_split("/\r\n/", $receved_header);
-    	foreach ($lines as $line) {
-    		$line = chop($line);
-    		if (preg_match('/\A(\S+): (.*)\z/', $line, $matches)) {
-    			$headers[$matches[1]] = $matches[2];
-    		}
-    	}
-
-    	$secKey = $headers['Sec-WebSocket-Key'];
-    	$secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
-    	//hand shaking header
-    	$upgrade  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
-    	"Upgrade: websocket\r\n" .
-    	"Connection: Upgrade\r\n" .
-    	"WebSocket-Origin: $host\r\n" .
-    	"WebSocket-Location: ws://$host:$port/demo/shout.php\r\n".
-    	"Sec-WebSocket-Accept:$secAccept\r\n\r\n";
-    	socket_write($client_conn,$upgrade,strlen($upgrade));
-    }
-
 }
 
- ?>
+(new SocketServer)->start();

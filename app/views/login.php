@@ -78,7 +78,7 @@
         password = document.getElementById('password').value;
 
         $.post(
-            '\\public\\login',
+            '\\public\\login\\enter',
             {
                 login: login,
                 password: password
@@ -142,7 +142,7 @@
         }
 
         $.post(
-            '\\public\\login',
+            '\\public\\login\\register',
             {
                 reg_login: reg_login,
                 reg_username: reg_username,
