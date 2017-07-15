@@ -42,7 +42,7 @@
             </div>
 
             <input type="text" id="msg" />
-            <input type="button" onclick="foo()" />
+            <input type="button" onclick="send()" />
         </div>
 
     </div>
@@ -66,8 +66,8 @@
                 $('#msg').val($('#msg').val() + "Connection closed" + "\r\n");
             }
 
-            websocket.onopen = function(ev) { // connection is open
-                $('#msg').val($('#msg').val() + "Connected!" + "\r\n"); //notify user
+            websocket.onopen = function(ev) {
+                $('#msg').val($('#msg').val() + "Connected!" + "\r\n");
             }
 
             websocket.onmessage = function(ev) {
@@ -93,6 +93,30 @@
 
             function choose_dialog(){
 
+            }
+
+            function send() {
+            	var mymessage = $("#msg").text;
+
+            	if(!mymessage) {
+            		alert("Message can not be empty");
+            		return;
+            	}
+
+            	$("#msg").text="";
+            	$("#msg").focus();
+
+                msg = {
+                    message: mymessage,
+                    recipient_id: 4
+                };
+
+            	try {
+            		websocket.send(JSON.stringify(msg));
+            		log('Sent: ' + msg);
+            	} catch(ex) {
+            		log(ex);
+            	}
             }
 
             $('#searchbox').on('input propertychange paste', function() {

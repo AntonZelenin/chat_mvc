@@ -39,7 +39,7 @@ class Login extends Controller
             $checker = new LoginPasswordChecker(new Database_PDO);
 
             if ($checker->is_login_password_valid($login, $password)) {
-                $user_id = (new LoginToId(new Database_PDO))->id_by_login($_POST['login']);
+                $user_id = (new Converter(new Database_PDO))->id_by_login($_POST['login']);
 
                 // print_r($user_id); die;
 

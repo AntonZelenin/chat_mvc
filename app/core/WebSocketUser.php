@@ -3,6 +3,7 @@
 class WebSocketUser {
     private $socket;
     public $id;
+    private $database_id;
     private $headers = array();
     private $handshake = false;
 
@@ -48,5 +49,15 @@ class WebSocketUser {
     public function set_headers($headers)
     {
         $this->headers = $headers;
+    }
+
+    public function get_database_id() : int
+    {
+        return $this->database_id;
+    }
+
+    public function set_database_id($id)
+    {
+        $this->database_id = $id;
     }
 }

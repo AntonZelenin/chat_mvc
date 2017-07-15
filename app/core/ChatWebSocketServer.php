@@ -6,7 +6,19 @@ class ChatWebSocketServer extends WebSocketServer
 
     protected function process($user, $message)
     {
-        $this->send($user,$message);
+        // $data = json_decode($message);
+
+        // $recipient_id = $data->recipient_id;
+        // $message = $data->message;
+        //
+        // $recipient = $this->getUserByDatabaseId($recipient_id);
+        //
+        // if($recipient !== null) {
+        //     $this->send($recipient, $message);
+        // } else {
+        //     throw new Exception("Recipient is NULL", 1);
+        //
+        // }
     }
 
     protected function connected($user)
@@ -16,6 +28,9 @@ class ChatWebSocketServer extends WebSocketServer
         if (!isset($headers['cookie']) || !(new CookieChecker(new Database_PDO))->is_valid_cookie($headers['cookie'])) {
             $this->disconnect($user->get_socket());
         }
+
+        $id = (new Converter(new Database_PDO))->id_by_cookie($headers['cookie']);
+        $user->set_database_id($id);
     }
 
     protected function closed($user)
