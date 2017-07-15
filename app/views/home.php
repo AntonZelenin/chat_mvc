@@ -40,6 +40,9 @@
             <div class="chat-empty">
                 Please select a chat to start messaging :)
             </div>
+
+            <input type="text" id="msg" />
+            <input type="button" onclick="foo()" />
         </div>
 
     </div>
@@ -47,8 +50,49 @@
 
         <script>
 
+            function foo()
+            {
+
+            }
+
+            var wsUri = "ws://chat.php:9000";
+            websocket = new WebSocket(wsUri);
+
+            websocket.onerror = function(ev) {
+                $('#msg').val($('#msg').val() + "Error Occurred - " + ev.data + "\r\n");
+            }
+
+            websocket.onclose = function(ev) {
+                $('#msg').val($('#msg').val() + "Connection closed" + "\r\n");
+            }
+
+            websocket.onopen = function(ev) { // connection is open
+                $('#msg').val($('#msg').val() + "Connected!" + "\r\n"); //notify user
+            }
+
+            websocket.onmessage = function(ev) {
+                // alert(1);
+                var msg = JSON.parse(ev.data);
+                console.log(msg);
+                var type = msg.type;
+                var umsg = msg.message;
+                var uname = msg.name;
+                var ucolor = msg.color;
+                if(type == 'usermsg')
+                {
+                    $('#message_box').append("<div><span class=\"user_name\" style=\"color:#"+ucolor+"\">"+uname+"</span> : <span class=\"user_message\">"+umsg+"</span></div>");
+                }
+                if(type == 'system')
+                {
+                    $('#msg').val($('#msg').val() + umsg + "\r\n");
+                }
+
+                // var objDiv = document.getElementById("message_box");
+                // objDiv.scrollTop = objDiv.scrollHeight;
+            };
+
             function choose_dialog(){
-                alert(1);
+
             }
 
             $('#searchbox').on('input propertychange paste', function() {
@@ -80,6 +124,8 @@
             }
 
         </script>
+
+        <b>WebSocket v2.00</b>
 
         </body>
 </html>

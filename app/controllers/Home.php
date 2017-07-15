@@ -16,7 +16,9 @@ class Home extends Controller
         }
 
         if (!$is_authorized) {
-            header("Location: ..\\public\\login");
+            $host = $_SERVER['HTTP_HOST'];
+            header("Location: http://$host/public/login/auth");
+            die;
         }
 
         $method = $_SERVER['REQUEST_METHOD'];
@@ -25,7 +27,12 @@ class Home extends Controller
             $cookie_assigner = new CookieAssigner($database);
             $cookie_assigner->unset_cookie_and_remove_from_db($_COOKIE['user_cookie']);
 
-            header("Location: ..\\public\\login");
+            //это должно происходить в методе сверху. исправить
+            unset($_COOKIE['user_cookie']);
+
+            $host = $_SERVER['HTTP_HOST'];
+            header("Location: http://$host/public/login");
+            die;
         }
 
         require_once ROOT.'\\app\\views\\home.php';

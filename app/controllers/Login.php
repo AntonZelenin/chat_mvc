@@ -4,8 +4,9 @@ class Login extends Controller
 {
     public function index()
     {
-        header("Location: ..\\public\\login\\auth");
-
+        $host = $_SERVER['HTTP_HOST'];
+        header("Location: http://$host/public/login/auth");
+        die;
     }
 
     public function auth()
@@ -16,7 +17,10 @@ class Login extends Controller
             $user_cookie = $_COOKIE['user_cookie'];
 
             if ($checker->is_valid_cookie($user_cookie)) {
-                header("Location: chat.php\public\home");
+                $host = $_SERVER['HTTP_HOST'];
+                header("Location: http://$host/public/home");
+
+                die;
             }
         }
 
@@ -26,14 +30,18 @@ class Login extends Controller
     public function enter()
     {
         if (isset($_POST['login']) && isset($_POST['password'])) {
-            $login = $_POST['login'];
-            $password = $_POST['password'];
+            $login = strip_tags($_POST['login']);
+            $login = htmlspecialchars($login);
+
+            $password = strip_tags($_POST['password']);
+            $password = htmlspecialchars($password);
 
             $checker = new LoginPasswordChecker(new Database_PDO);
 
             if ($checker->is_login_password_valid($login, $password)) {
-                $t = new LoginToId(new Database_PDO);
-                $user_id = $t->id_by_login($_POST['reg_login']);
+                $user_id = (new LoginToId(new Database_PDO))->id_by_login($_POST['login']);
+
+                // print_r($user_id); die;
 
                 $token_gen = new HexTokenGenerator;
                 $token = $token_gen->generate();
@@ -46,11 +54,22 @@ class Login extends Controller
                 $cookie_assigner = new CookieAssigner(new Database_PDO);
                 $cookie_assigner->set_cookie_and_add_to_db($user_cookie);
 
-                header('Location: ..\\public\\home');
+                $host = $_SERVER['HTTP_HOST'];
+                header("Location: http://$host/public/home");
+                die;
+            } else {
+                $host = $_SERVER['HTTP_HOST'];
+                header("Location: http://$host/public/login/auth");
+                die;
             }
+        } else {
+            echo "ne enter";
+            $host = $_SERVER['HTTP_HOST'];
+            header("Location: http://$host/public/login/auth");
+            die;
         }
 
-        require_once ROOT.'\\app\\views\\login.php';
+        // require_once ROOT.'\\app\\views\\login.php';
     }
 
     public function register()
@@ -75,7 +94,11 @@ class Login extends Controller
            $cookie_assigner = new CookieAssigner(new Database_PDO);
            $cookie_assigner->set_cookie_and_add_to_db($user_cookie);
 
-           header("Location: ..\\public\\home");
+           echo true;
+
+        //    $host = $_SERVER['HTTP_HOST'];
+        //    header("Location: http://$host/public/home");
+        //    die;
        }
     }
 }

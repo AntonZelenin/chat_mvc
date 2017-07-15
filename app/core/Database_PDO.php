@@ -6,7 +6,7 @@ class Database_PDO {
 
     public function __construct() {
         // $conf = parse_ini_file('c:\wamp64\www\chat_mvc\app\config\db_params.ini', true);
-        $conf = parse_ini_file('../app/config/db_params.ini', true);
+        $conf = parse_ini_file(ROOT.'\\app\\config\\db_params.ini', true);
         $conf = $conf['chat_database'];
 
         $host = $conf['host'];

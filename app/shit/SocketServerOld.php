@@ -1,17 +1,24 @@
 <?php
-define('ROOT', __DIR__.'\\..');
-require_once(ROOT.'\\core\\Autoload.php');
+require_once(ROOT.'\\app\\core\\Autoload.php');
 
 class SocketServer
 {
+    private $database_connection;
+
     private $socket;
-    private const $host = 'localhost'; //host
-    private const $port = '9000'; //port
+    private $host = 'localhost'; //host
+    private $null = NULL;
+    private $port = '9000'; //port
     private $clients = array();
     private $socket_container;
 
+    private $message_saver;
+
     public function __construct()
     {
+        $this->database_connection = (new Database_PDO)->get_connection();
+        $this->message_saver = new TextMessageSaver($this->database_connection);
+
         //Create TCP/IP sream socket
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
@@ -26,7 +33,7 @@ class SocketServer
 
         //create & add listning socket to the list
         $this->clients[] = $this->socket;
-        $this->resource_container = new ResourceContainer;
+        $this->socket_container = new ResourceContainer;
     }
 
     public function __destruct()
@@ -42,22 +49,22 @@ class SocketServer
         	$changed = $this->clients;
 
         	//returns the socket resources in $changed array
-        	socket_select($changed, NULL, NULL, 0, 10);
+        	socket_select($changed, $null, $null, 0, 10);
 
         	//check for new socket
-        	if ($this->is_new_socket()) {
+        	if ($this->is_new_socket($changed)) {
         		$new_socket = socket_accept($this->socket); //accpet new socket
-        		$this->clients[] = $new_socket; //add socket to client array
-
         		$headers = socket_read($new_socket, 1024); //read data sent by the socket
 
                 $headers = $this->parse_headers($headers);
-
         		$this->perform_handshaking($headers, $new_socket); //perform websocket handshake
-                // if (!isset($headers['Cookie']) // (new CookieChecker)->is_valid_cookie($headers['Cookie'])) {
-                //     что-то плохое
-                // }
 
+                if (!isset($headers['Cookie']) || !(new CookieChecker($this->database_connection))->is_valid_cookie($headers['Cookie'])) {
+                    socket_close($new_socket);
+                    continue;
+                }
+
+                $this->clients[] = $new_socket;
                 $this->socket_container->add_socket($new_socket);
 
         		//make room for new socket
@@ -67,38 +74,33 @@ class SocketServer
 
         	//loop through all connected sockets
         	foreach ($changed as $changed_socket) {
-
         		while (socket_recv($changed_socket, $buf, 1024, 0) >= 1) {
-        			$received_text = $this->unmask($buf);
-        			$tst_msg = json_decode($received_text);
-        			$user_name = $tst_msg->name;
-        			$user_message = $tst_msg->message;
-                    $user_color = $tst_msg->color;
-                    $user_id = $tst_msg->user_id;
+        			$received_data = $this->unmask($buf);
+        			$received_data = json_decode($received_data);
+
+        			$message = new TextMessage;
+                    $message->set_sender_id($received_data->sender_id);
+                    $message->set_group_id($received_data->group_id);
+                    $message->set_text($received_data->text);
+
+                    $this->message_saver->to_database($message);
 
         			$response_text = $this->mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message, 'color'=>$user_color, 'user_id' => $user_id)));
-        			// $this->send_message($response_text); //send data
-                    $this->send_message_to_user($user_id, $response_text);
-        			break 2; //exist this loop
+        			$this->send_message($response_text); //send data
+        			break 2;
         		}
 
-        		$buf = @socket_read($changed_socket, 1024, PHP_NORMAL_READ);
-        		if ($buf === false) {
-                    // check disconnected client
-        			// remove client for $this->clients array
-        			$found_socket = array_search($changed_socket, $this->clients);
-        			unset($this->clients[$found_socket]);
-        		}
+                $this->check_disconnected_clients($changed_socket);
         	}
         }
     }
 
-    private function is_new_socket() : bool
+    private function is_new_socket($changed) : bool
     {
         return (in_array($this->socket, $changed)) ? true : false;
     }
 
-    private function parse_headers($recieved_header)
+    private function parse_headers(string $recieved_header) : array
     {
         $headers = array();
         $lines = preg_split("/\r\n/", $recieved_header);
@@ -114,43 +116,38 @@ class SocketServer
         return $headers;
     }
 
-    private function perform_handshaking($receved_header, $client_conn)
+    private function perform_handshaking($recieved_headers, $client_conn)
     {
-        $secKey = $headers['Sec-WebSocket-Key'];
+        $secKey = $recieved_headers['Sec-WebSocket-Key'];
         $secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
-        //hand shaking header
         $upgrade  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
         "Upgrade: websocket\r\n" .
         "Connection: Upgrade\r\n" .
         "WebSocket-Origin: $this->host\r\n" .
-        "WebSocket-Location: ws://$this->host:$port/demo/shout.php\r\n".
+        "WebSocket-Location: ws://$this->host:$this->port/demo/shout.php\r\n".
         "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
-        socket_write($client_conn,$upgrade,strlen($upgrade));
+        socket_write($client_conn, $upgrade, strlen($upgrade));
     }
 
-    private function check_credetenials
-
-    private function send_message($msg)
+    private function send_message(string $message) : bool
     {
     	foreach ($this->clients as $changed_socket) {
-    		@socket_write($changed_socket, $msg, strlen($msg));
+    		@socket_write($changed_socket, $message, strlen($message));
     	}
 
     	return true;
     }
 
-    private function send_message_to_users($users, $message)
+    private function send_message_to_users(array $users, string $message) : bool
     {
     	foreach ($users as $user) {
-    		@socket_write($user, $message, strlen($msg));
+    		@socket_write($user, $message, strlen($message));
         }
 
     	return true;
     }
 
-
-    //Unmask incoming framed message
-    private function unmask($text)
+    private function unmask(string $text) : string
     {
     	$length = ord($text[1]) & 127;
 
@@ -173,8 +170,7 @@ class SocketServer
     	return $text;
     }
 
-    //Encode message for transfer to client.
-    private function mask($text)
+    private function mask(string $text) : string
     {
     	$b1 = 0x80 | (0x1 & 0x0f);
     	$length = strlen($text);
@@ -190,6 +186,15 @@ class SocketServer
     	return $header.$text;
     }
 
-}
+    private function check_disconnected_clients($changed_socket)
+    {
+        $buf = @socket_read($changed_socket, 1024, PHP_NORMAL_READ);
+        if ($buf === false) {
+            // check disconnected client
+            // remove client for $this->clients array
+            $found_socket = array_search($changed_socket, $this->clients);
+            unset($this->clients[$found_socket]);
+        }
+    }
 
-(new SocketServer)->start();
+}

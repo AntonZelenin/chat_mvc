@@ -6,6 +6,11 @@ html, body {
 
 }
 
+#msg {
+    width: 550px;
+    height: 300px;
+}
+
 .header {
     height: 50px;
     margin: 0 auto;

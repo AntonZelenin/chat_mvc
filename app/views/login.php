@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home | @chat :)</title>
+        <title>Login | @chat :)</title>
         <script src="\app\js\jquery-3.2.1.js"></script>
         <link rel="stylesheet"  href="\public\css\login.css" />
 
@@ -10,17 +10,17 @@
     <body>
 
         <div class='form-div-container'>
-            <form class="form-container" name="authorization">
+            <form class="form-container" name="authorization" action="/public/login/enter" method="POST">
                 <div class="form-row">
-                    <input class="form-input" type="text" id='login' placeholder="Login" />
+                    <input class="form-input" type="text" name='login' placeholder="Login" />
                 </div>
 
                 <div class="form-row">
-                    <input class="form-input" type="password" id='password' placeholder="Password" />
+                    <input class="form-input" type="password" name='password' placeholder="Password" />
                 </div>
 
                 <div class="form-row">
-                    <input class="submit-button" type="button" value="Log in" onclick="auth()"/>
+                    <input class="submit-button" type="Submit" value="Log in" />
                     <a class="forgot-password" href="http://www.google.com">Forgot your password?</a>
                 </div>
 
@@ -73,25 +73,27 @@
 
 <script>
 
-    function auth(){
-        login = document.getElementById('login').value;
-        password = document.getElementById('password').value;
-
-        $.post(
-            '\\public\\login\\enter',
-            {
-                login: login,
-                password: password
-            },
-            function(respond){
-                if(respond == true){
-                    window.location = "home.php";
-                }else{
-                    set_warnings('Fuck!', 'You entered something wrong.<br />Try again');
-                }
-            }
-        );
-    }
+    // function auth()
+    // {
+    //     login = document.getElementById('login').value;
+    //     password = document.getElementById('password').value;
+    //
+    //     $.post(
+    //         '\\public\\login\\enter',
+    //         {
+    //             login: login,
+    //             password: password
+    //         }
+    //         // },
+    //         // function(respond){
+    //         //     if(respond == true){
+    //         //         window.location = "home.php";
+    //         //     }else{
+    //         //         set_warnings('Fuck!', 'You entered something wrong.<br />Try again');
+    //         //     }
+    //         // }
+    //     );
+    // }
 
     function set_warnings(big, small){
         var div = document.getElementById('big-warning');
@@ -153,7 +155,7 @@
                 if(respond == true){
                     set_warnings('Great!', 'You\'ve just registereg) Enjoy!');
 
-                    setTimeout(function(){ window.location = "/tpl/home.php"; }, 2500);
+                    setTimeout(function(){ window.location = "/public/home.php"; }, 2500);
                 }else{
                     set_warnings('Oops!', 'Sorry, login is already occupied. Pick another one');
                 }

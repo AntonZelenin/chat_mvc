@@ -7,7 +7,7 @@ function __autoload($class_name)
         ROOT.'\\app\\models\\',
         ROOT.'\\app\\core\\',
         ROOT.'\\app\\controllers\\',
-        ROOT.'\\server\\'
+        ROOT.'\\app\\server\\'
     );
 
     foreach ($array_paths as $path) {
