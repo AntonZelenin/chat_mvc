@@ -34,11 +34,12 @@ abstract class WebSocketServer {
         // the handshake has completed.
     }
 
-    protected function send($user, $message)
+    protected function send(WebSocketUser $recipient, string $message)
     {
-        if ($user->is_handshake()) {
-            $message = $this->frame($message, $user);
-            $result = @socket_write($user->get_socket(), $message, strlen($message));
+        if ($recipient->is_handshake()) {
+            echo $recipient->get_socket();
+            $message = $this->frame($message, $recipient);
+            $result = @socket_write($recipient->get_socket(), $message, strlen($message));
         } else {
             // User has not yet performed their handshake.  Store for sending later.
             $holdingMessage = array('user' => $user, 'message' => $message);
@@ -103,7 +104,6 @@ abstract class WebSocketServer {
                     }
                 } else {
                     $numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0);
-                    print_r(json_decode($buffer));
                     if ($numBytes === false) {
                         $sockErrNo = socket_last_error($socket);
                         switch ($sockErrNo) {
@@ -460,7 +460,6 @@ abstract class WebSocketServer {
             $frame_pos += $framesize;
             $packet = substr($fullpacket, $frame_pos);
             $frame_id++;
-            print_r($message);
         }
     }
 
@@ -482,7 +481,6 @@ abstract class WebSocketServer {
 
     protected function deframe($message, $user)
     {
-        //echo $this->strtohex($message);
         $headers = $this->extractHeaders($message);
         $pongReply = false;
         $willClose = false;

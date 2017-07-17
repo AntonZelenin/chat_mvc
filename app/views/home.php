@@ -71,21 +71,22 @@
             }
 
             websocket.onmessage = function(ev) {
-                // alert(1);
-                var msg = JSON.parse(ev.data);
-                console.log(msg);
-                var type = msg.type;
-                var umsg = msg.message;
-                var uname = msg.name;
-                var ucolor = msg.color;
-                if(type == 'usermsg')
-                {
-                    $('#message_box').append("<div><span class=\"user_name\" style=\"color:#"+ucolor+"\">"+uname+"</span> : <span class=\"user_message\">"+umsg+"</span></div>");
-                }
-                if(type == 'system')
-                {
-                    $('#msg').val($('#msg').val() + umsg + "\r\n");
-                }
+                // var msg = JSON.parse(ev.data);
+                var msg = ev.data;
+                $('#msg').val($('#msg').val() + msg + "\r\n");
+                // console.log(msg);
+                // var type = msg.type;
+                // var umsg = msg.message;
+                // var uname = msg.name;
+                // var ucolor = msg.color;
+                // if(type == 'usermsg')
+                // {
+                //     $('#message_box').append("<div><span class=\"user_name\" style=\"color:#"+ucolor+"\">"+uname+"</span> : <span class=\"user_message\">"+umsg+"</span></div>");
+                // }
+                // if(type == 'system')
+                // {
+                //     $('#msg').val($('#msg').val() + umsg + "\r\n");
+                // }
 
                 // var objDiv = document.getElementById("message_box");
                 // objDiv.scrollTop = objDiv.scrollHeight;
@@ -96,7 +97,7 @@
             }
 
             function send() {
-            	var mymessage = $("#msg").text;
+            	var mymessage = $("#msg").val();
 
             	if(!mymessage) {
             		alert("Message can not be empty");
@@ -113,7 +114,7 @@
 
             	try {
             		websocket.send(JSON.stringify(msg));
-            		log('Sent: ' + msg);
+            		// log('Sent: ' + msg);
             	} catch(ex) {
             		log(ex);
             	}

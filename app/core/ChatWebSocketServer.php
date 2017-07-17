@@ -4,21 +4,20 @@ class ChatWebSocketServer extends WebSocketServer
 {
     //protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
 
-    protected function process($user, $message)
+    protected function process($user, $data)
     {
-        // $data = json_decode($message);
+        $data = (json_decode($data));
 
-        // $recipient_id = $data->recipient_id;
-        // $message = $data->message;
-        //
-        // $recipient = $this->getUserByDatabaseId($recipient_id);
-        //
-        // if($recipient !== null) {
-        //     $this->send($recipient, $message);
-        // } else {
-        //     throw new Exception("Recipient is NULL", 1);
-        //
-        // }
+        $recipient_id = $data->recipient_id;
+        $message = $data->message;
+
+        $recipient = $this->getUserByDatabaseId($recipient_id);
+
+        if($recipient !== null) {
+            $this->send($recipient, $message);
+        } else {
+            throw new Exception("Recipient is NULL", 1);
+        }
     }
 
     protected function connected($user)
