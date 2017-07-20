@@ -1,102 +1,181 @@
-html, body {
-    margin: 0;
-    padding: 0;
+*, *:before, *:after {
+  box-sizing: border-box;
+}
 
-    min-width: 100%;
-    width: 100%;
-    max-width: 100%;
-
-    min-height: 100%;
-    height: 100%;
-    max-height: 100%;
+html {
+  overflow-y: scroll;
 }
 
 body {
-    background-color: #edeff4;
+  /*background: #c1bdba;*/
+  background: #F2F3F7;
+  font-family: 'Titillium Web', sans-serif;
 }
 
-.warning {
-    background-color: #e8eaef;
-    position: absolute;
-    top: 1px;
-    left: 5px;
-    width: 850px;
-    height: 450px;
+a {
+  text-decoration: none;
+  color: #1ab188;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+a:hover {
+  color: #179b77;
 }
 
-#big-warning {
-    padding-top: 2%;
-    font-size: 180px;
-    color: #4e5e87;
+.form {
+  background: rgba(19, 35, 47, 0.9);
+  padding: 40px;
+  /*max-width: 600px;*/
+  max-width: 490px;
+  max-height: 393px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
 
-#small-warning {
-    font-size: 64px;
-    color: #4e5e87;
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #a0b3b0;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+.tab-group li a:hover {
+  background: #179b77;
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #1ab188;
+  color: #ffffff;
 }
 
-.form-div-container {
-    position: relative;
-    top: 20%;
-    left: 70%;
+.tab-content > div:last-child {
+  display: none;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    background-color: white;
-    border-radius: 5px;
-    width: 330px;
-    height: 200px;
-    margin-bottom: 30px;
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
 }
 
-.form-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-left: 20px;
-    margin-right: 20px;
-    align-items: center;
+label {
+  position: absolute;
+  -webkit-transform: translateY(6px);
+          transform: translateY(6px);
+  left: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+  font-size: 22px;
+}
+label .req {
+  margin: 2px;
+  color: #1ab188;
 }
 
-.form-input {
-    display: flex;
-    flex: 1;
-    height: 28px;
-    font-size: 16px;
-    color: #515151;
-    border:solid 1px #ccc;
-    border-radius: 2px;
-    padding-left: 15px;
+label.active {
+  -webkit-transform: translateY(50px);
+          transform: translateY(50px);
+  left: 2px;
+  font-size: 14px;
+}
+label.active .req {
+  opacity: 0;
 }
 
-.submit-button {
-    width: 100px;
-    height: 35px;
-    border: solid 1px #4a5e99;
-    border-radius: 4px;
-    background-color: #4a5e99;
-    color: white;
-    font-size: 14px;
+label.highlight {
+  color: #ffffff;
 }
 
-.submit-button:hover {
-    background-color: #6377b2;
+input, textarea {
+  font-size: 22px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #a0b3b0;
+  color: #ffffff;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus, textarea:focus {
+  outline: 0;
+  border-color: #1ab188;
 }
 
-::-moz-placeholder {
-    font-size: 16px!important;
-    color: #727272;
+textarea {
+  border: 2px solid #a0b3b0;
+  resize: vertical;
 }
 
-a.forgot-password:link, a.forgot-password:visited {
-    text-decoration: none;
-    color: #4a5e99;
+.field-wrap {
+  position: relative;
+  margin-bottom: 40px;
 }
 
-a.forgot-password:hover {
-    text-decoration: underline;
-    color: #4a5e99;
+.top-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.top-row > div {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.top-row > div:last-child {
+  margin: 0;
+}
+
+.button {
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  padding: 15px 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: #1ab188;
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+  background: #179b77;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+.forgot {
+  margin-top: -20px;
+  text-align: right;
 }

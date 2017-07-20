@@ -1,167 +1,100 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Login | @chat :)</title>
-        <script src="\app\js\jquery-3.2.1.js"></script>
-        <link rel="stylesheet"  href="\public\css\login.css" />
-
-    </head>
-
-    <body>
-
-        <div class='form-div-container'>
-            <form class="form-container" name="authorization" action="/public/login/enter" method="POST">
-                <div class="form-row">
-                    <input class="form-input" type="text" name='login' placeholder="Login" />
-                </div>
-
-                <div class="form-row">
-                    <input class="form-input" type="password" name='password' placeholder="Password" />
-                </div>
-
-                <div class="form-row">
-                    <input class="submit-button" type="Submit" value="Log in" />
-                    <a class="forgot-password" href="http://www.google.com">Forgot your password?</a>
-                </div>
-
-            </form>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-Up/Login Form</title>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
 
-            <div class="form-container" name="registration">
-                <div class="form-row">
-                    For the first time on @chat :)?
-                </div>
+      <link rel="stylesheet" href="/public/css/login.css">
 
-                <div class="form-row">
-                    <input class="form-input" type="text" id="reg-login" placeholder="Create login" />
-                </div>
 
-                <div class="form-row">
-                    <input class="form-input" type="text" id="reg-username" placeholder="Username" />
-                </div>
+</head>
 
-                <div class="form-row">
-                    <input class="form-input" type="password" id="reg-password" placeholder="Come up with a password" />
-                </div>
+<body>
+  <div class="form">
 
-                <div class="form-row">
-                    <input class="form-input" type="password" id="confirm-password" placeholder="Confirm password" />
-                </div>
+      <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Sign Up</a></li>
+        <li class="tab"><a href="#login">Log In</a></li>
+      </ul>
 
-                <div class="form-row">
-                    <input class="submit-button" type="submit" value="Sign up" onclick="reg()" />
-                </div>
+      <div class="tab-content">
+        <div id="signup">
+          <!-- <h1>Sign Up for Free</h1> -->
 
+          <form action="/" method="post">
+
+          <div class="top-row">
+            <div class="field-wrap">
+              <label>
+                First Name<span class="req">*</span>
+              </label>
+              <input type="text" required autocomplete="off" />
             </div>
 
+            <div class="field-wrap">
+              <label>
+                Last Name<span class="req">*</span>
+              </label>
+              <input type="text"required autocomplete="off"/>
+            </div>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <input type="email"required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Set A Password<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+
+          <button type="submit" class="button button-block"/>Get Started</button>
+
+          </form>
 
         </div>
 
-        <div class="warning">
-            <div id="big-warning">Welcome!</div>
-            <div id="small-warning">To... here.<br />VK sucks, I'm doing well:)</div>
+        <div id="login">
+          <!-- <h1>Welcome Back!</h1> -->
+
+          <form action="/" method="post">
+
+            <div class="field-wrap">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <input type="email"required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+
+          <p class="forgot"><a href="#">Forgot Password?</a></p>
+
+          <button class="button button-block"/>Log In</button>
+
+          </form>
+
         </div>
 
+      </div><!-- tab-content -->
 
-        <form "reg-form-container">
+</div> <!-- /form -->
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-        </form>
+    <script src="/public/js/login.js"></script>
 
-    </body>
-
+</body>
 </html>
-
-<script>
-
-    // function auth()
-    // {
-    //     login = document.getElementById('login').value;
-    //     password = document.getElementById('password').value;
-    //
-    //     $.post(
-    //         '\\public\\login\\enter',
-    //         {
-    //             login: login,
-    //             password: password
-    //         }
-    //         // },
-    //         // function(respond){
-    //         //     if(respond == true){
-    //         //         window.location = "home.php";
-    //         //     }else{
-    //         //         set_warnings('Fuck!', 'You entered something wrong.<br />Try again');
-    //         //     }
-    //         // }
-    //     );
-    // }
-
-    function set_warnings(big, small){
-        var div = document.getElementById('big-warning');
-        div.innerHTML = big;
-
-        div = document.getElementById('small-warning');
-        div.innerHTML = small;
-    }
-
-    function reg(){
-        reg_login = document.getElementById('reg-login').value;
-        reg_username = document.getElementById('reg-username').value;
-        reg_password = document.getElementById('reg-password').value;
-        confirm_password = document.getElementById('confirm-password').value;
-
-        if(reg_login == '' && reg_password == '' && confirm_password == ''){
-            set_warnings('Empty!!', 'You didn\'t fill anything, kidding?');
-
-            return;
-        }
-
-        if(reg_login == ''){
-            set_warnings('It\'s empty!<br />', 'You didn\'t even fill login field:( Fill it');
-
-            return;
-        }else if (reg_username == '') {
-            set_warnings('Username<br />', 'Where is it?');
-
-            var div = document.getElementById('big-warning');
-
-            return;
-        }else if (reg_password == '') {
-            set_warnings('Password<br />', 'How\'re you going to sign in without the password?');
-
-            var div = document.getElementById('big-warning');
-
-            return;
-        }else if (confirm_password == '') {
-            set_warnings('Confirm!', 'You must enter password twice! What if you misstyped?');
-
-            return;
-        }
-
-        if(reg_password != confirm_password){
-            set_warnings('Typo', 'You entered some abracadabra. Passwords do not match');
-
-            return;
-        }
-
-        $.post(
-            '\\public\\login\\register',
-            {
-                reg_login: reg_login,
-                reg_username: reg_username,
-                reg_password: reg_password
-            },
-
-            function(respond){
-                if(respond == true){
-                    set_warnings('Great!', 'You\'ve just registereg) Enjoy!');
-
-                    setTimeout(function(){ window.location = "/public/home.php"; }, 2500);
-                }else{
-                    set_warnings('Oops!', 'Sorry, login is already occupied. Pick another one');
-                }
-            }
-        );
-    }
-
-
-</script>
