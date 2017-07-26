@@ -25,11 +25,15 @@
 	<!-- iOS Safari -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
 
-	<!-- <style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
- -->
+	<style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
+
 </head>
 
 <body>
+
+<div class="loader">
+	<div class="loader-inner"></div>
+</div>
 
 <div class="chat-container clearfix">
 	<aside class="user-list js-user-list">
@@ -55,7 +59,7 @@
 
 		</div>
 
-		<ul class="chat-list">
+		<ul class="chat-list" style="list-style-type: none">
 
 			<li>
 				<a href="#1" class="chat-list__item clearfix">
@@ -196,6 +200,8 @@
 	<div class="post-list js-post-list">
 		<div class="post-list__header clearfix">
 
+			<a href="#1" class="toggle-btn  toggle-btn--fixed  js-toggle-btn--fixed"><span></span></a>
+
 			<div class="post-header__user">
 				<div class="post-header__user-name">
 					Grag Tomson
@@ -213,10 +219,128 @@
 					</form>
 				</div>
 				<div class="post-list__menu">
-					<a href="#1" class="post-list__menu-btn">menu</a>
+					<a href="#1" class="post-list__menu-btn js-dropdown-toggle">menu</a>
+					<ul class="post-list__dropdown js-dropdown-menu" style="list-style-type: none">
+						<li><a href="#1" class="post-list__dropdown-item  js-dropdown-menu-item">Delete</a></li>
+						<li><a href="#1" class="post-list__dropdown-item  js-dropdown-menu-item">Clean history</a></li>
+						<li><a href="#1" class="post-list__dropdown-item  js-dropdown-menu-item">Block user</a></li>
+						<li><a href="#1" class="post-list__dropdown-item  js-dropdown-menu-item">Show attachments</a></li>
+					</ul>
 				</div>
 			</div>
 
+		</div>
+
+		<div class="messages">
+			<ul class="messages__list" style="list-style-type: none">
+
+				<li class="message">
+					<div class="message__check">
+						<input type="checkbox" id="post1">
+						<label for="post1"><span></span></label>
+					</div>
+					<div class="message__img">
+						<img src="img/ava.jpg" alt="ava">
+					</div>
+					<div class="message__text-wrapper">
+						<div class="message__name">
+							Greg Tomson
+						</div>
+						<div class="message__text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum ab illo necessitatibus, excepturi soluta. Ullam!</p>
+						</div>
+					</div>
+					<div class="message__time-wrapper">
+						<span class="message__time">15m ago</span>
+					</div>
+				</li>
+
+				<li class="message">
+					<div class="message__check">
+						<input type="checkbox" id="post2">
+						<label for="post2"><span></span></label>
+					</div>
+					<div class="message__img">
+						<img src="img/ava.jpg" alt="ava">
+					</div>
+					<div class="message__text-wrapper">
+						<div class="message__name">
+							John Dou
+						</div>
+						<div class="message__text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam perferendis quia totam rem accusamus, error temporibus voluptas dignissimos corporis fuga illum delectus, sed repellat voluptates.</p>
+						</div>
+					</div>
+					<div class="message__time-wrapper">
+						<span class="message__time">15m ago</span>
+					</div>
+				</li>
+
+				<li class="message">
+					<div class="message__check">
+						<input type="checkbox" id="post3">
+						<label for="post3"><span></span></label>
+					</div>
+					<div class="message__img">
+						<img src="img/ava.jpg" alt="ava">
+					</div>
+					<div class="message__text-wrapper">
+						<div class="message__name">
+							Maradonna
+						</div>
+						<div class="message__text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam perferendis quia totam rem</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam perferendis quia totam rem</p>
+						</div>
+					</div>
+					<div class="message__time-wrapper">
+						<span class="message__time">15m ago</span>
+					</div>
+				</li>
+
+				<li class="message">
+					<div class="message__check">
+						<input type="checkbox" id="post4">
+						<label for="post4"><span></span></label>
+					</div>
+					<div class="message__img">
+						<img src="img/ava.jpg" alt="ava">
+					</div>
+					<div class="message__text-wrapper">
+						<div class="message__name">
+							Donald Duck
+						</div>
+						<div class="message__text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam perferendis quia totam rem</p>
+						</div>
+					</div>
+					<div class="message__time-wrapper">
+						<span class="message__time">15m ago</span>
+					</div>
+				</li>
+
+				<li class="message">
+					<div class="message__check">
+						<input type="checkbox" id="post5">
+						<label for="post5"><span></span></label>
+					</div>
+					<div class="message__img">
+						<img src="img/ava.jpg" alt="ava">
+					</div>
+					<div class="message__text-wrapper">
+						<div class="message__name">
+							Robin Hood
+						</div>
+						<div class="message__text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam perferendis quia totam rem</p>
+						</div>
+					</div>
+					<div class="message__time-wrapper">
+						<span class="message__time">15m ago</span>
+					</div>
+				</li>
+
+			</ul>
 		</div>
 
 		<div class="post-list__footer">
@@ -231,6 +355,12 @@
 					<input type="submit" value="Send" class="send-message-btn">
 				</form>
 			</div>
+
+			<div class="footer-buttons clearfix">
+				<button class="footer-button-delete">Delete</button>
+				<button class="footer-button-forvard">Forvard</button>
+				<div class="footer-button-close">Close panel</div>
+			</div>
 		</div>
 
 	</div>
@@ -238,11 +368,9 @@
 </div>
 
 
-
-
-	<link rel="stylesheet" href="css/style.min.css">
-	<script src="js/scripts.min.js"></script>
-	<script src="js/common.js"></script>
+	<link rel="stylesheet" href="/public/css/main.css">
+	<script src="/public/js/scripts.min.js"></script>
+	<script src="/public/js/common.js"></script>
 
 </body>
 </html>
