@@ -35,6 +35,6 @@ class Home extends Controller
             die;
         }
 
-        require_once ROOT.'\\app\\views\\home.php';
+        $this->view('home');
     }
 }

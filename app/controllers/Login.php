@@ -12,7 +12,8 @@ class Login extends Controller
     public function auth()
     {
         if (isset($_COOKIE['user_cookie'])) {
-            $checker = new CookieChecker(new Database_PDO);
+            // $checker = new CookieChecker(new Database_PDO);
+            $checker = model('CookieChecker');
 
             $user_cookie = $_COOKIE['user_cookie'];
 
@@ -24,7 +25,7 @@ class Login extends Controller
             }
         }
 
-        require_once ROOT.'\\app\\views\\login.php';
+        $this->view('login');
     }
 
     public function enter()

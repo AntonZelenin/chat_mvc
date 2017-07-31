@@ -168,18 +168,16 @@ input, textarea {
     /*padding: 5px 10px;*/
     background: none;
     background-image: none;
-    border: 1px solid #a0b3b0;
+    border: 1px solid #E0E1E3;
     color: #303841;
     border-radius: 4px;
-    border: 1px solid #E7E8EA;
     -webkit-transition: border-color .25s ease, box-shadow .25s ease;
     transition: border-color .25s ease, box-shadow .25s ease;
 }
-input:focus, textarea:focus {
+/*input:focus, textarea:focus {
   outline: 0;
-  /*border-color: #1ab188;*/
   border-color: #00E676;
-}
+}*/
 
 textarea {
   border: 2px solid #a0b3b0;
