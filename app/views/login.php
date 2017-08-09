@@ -1,110 +1,85 @@
 <!DOCTYPE html>
-<html >
+<html lang="ru">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Sign-Up/Login Form</title>
-  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
+	<meta charset="utf-8">
 
-      <link rel="stylesheet" href="/public/css/login.css">
+	<title>Log in | Sign in</title>
+	<meta name="description" content="">
 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- <meta property="og:image" content="path/to/image.jpg"> -->
+
+	<link rel="shortcut icon" href="/publicimg/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/publicimg/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/publicimg/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/publicimg/favicon/apple-touch-icon-114x114.png">
+
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#000">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#000">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+
+	<style>body { opacity: 0; overflow-x: hidden; }</style>
 
 </head>
 
-<body>
-    <div class="header">
-        <div class="name">
-            Chatty
-        </div>
-    </div>
+<body class="login">
 
-    <div class="form">
+<div class="loader">
+	<div class="loader-inner"></div>
+</div>
 
-        <ul class="tab-group">
-            <li class="tab active"><a href="#login">Log In</a></li>
-            <li class="tab"><a href="#signup">Sign Up</a></li>
-        </ul>
+<div class="login-header">
+	<div class="login-header__img">
+		<img src="/public/img/logo.svg" alt="Logo">
+	</div>
+</div>
 
-        <div class="tab-content">
+<div class="login-main">
+	<div class="login-form-wrapper">
+			<div class="login-form">
 
-            <div id="login">
-            <!-- <h1>Welcome Back!</h1> -->
+				<div class="tabs clearfix">
+					<span class="tab  form-btn  form-btn--sign-in">Sign In</span>
+					<span class="tab  form-btn  form-btn--sign-up">Sign Up</span>
+				</div>
 
-                <form action="/" method="post">
+				<div class="tab-content form__fields-wrapper">
 
-                    <div class="field-wrap">
-                        <!-- <label>
-                            Email Address<span class="req"></span>
-                        </label> -->
-                        <input type="email" placeholder="Email Address" name='login' required autocomplete="off"/>
-                    </div>
+					<div class="tab-item  sign-in__content">
+						<form action="/public/login/enter" method="post">
+							<input type="email" id="email" placeholder="Email" required>
+							<input type="password" id="password" placeholder="Password" required>
+							<input type="submit" value="Submit" class="form-submit-btn">
+						</form>
+					</div>
 
-                    <div class="field-wrap">
-                        <!-- <label>
-                            Password<span class="req"></span>
-                        </label> -->
-                        <input type="password" class="req" placeholder="Password" name='password' required autocomplete="off"/>
-                    </div>
+					<div class="tab-item  sign-up__content clearfix">
+						<form action="/public/login/register" method="post" onsubmit="return checkForm();">
+							<input type="text" id="first-name" placeholder="First Name" name="first-name" class="first-name" required>
+							<input type="text" id="last-name" placeholder="Last Name" name="last-name" class="last-name" required>
+							<input type="email" id="reg-email"  placeholder="Email" name="email" required>
+							<input type="password" id="reg-password"  placeholder="Password" name="password" required>
+							<input type="password" id="reg-password-confirm" placeholder="Confirm Password" required>
+							<input type="submit" value="Submit" class="form-submit-btn">
+						</form>
+					</div>
 
-                    <p class="forgot"><a href="#">Forgot Password?</a></p>
+				</div>
+			</div>
+	</div>
+</div>
 
-                    <button type="submit" class="button button-block"/>Log In</button>
 
-                </form>
-
-            </div>
-
-            <div id="signup">
-                <!-- <h1>Sign Up for Free</h1> -->
-
-                <form action="/" method="post">
-
-                    <div class="field-wrap">
-                        <div class="top-row">
-                            <!-- <div class="field-wrap"> -->
-                                <!-- <label>
-                                    First Name<span class="req"></span>
-                                </label> -->
-                                <input type="text" class="top-row-input req" placeholder="First Name" required autocomplete="off" />
-                            <!-- </div> -->
-
-                            <!-- <div class="field-wrap"> -->
-                                <!-- <label>
-                                    Last Name<span class="req"></span>
-                                </label> -->
-                                <input type="text" class="top-row-input req" placeholder="Last Name" required autocomplete="off"/>
-                            <!-- </div> -->
-                        </div>
-                    </div>
-
-                    <div class="field-wrap">
-                        <!-- <label>
-                            Email Address<span class="req"></span>
-                        </label> -->
-                        <input type="email req" placeholder="Email Address" required autocomplete="off"/>
-                    </div>
-
-                    <div class="field-wrap">
-                        <!-- <label>
-                            Set A Password<span class="req"></span>
-                        </label> -->
-                        <input type="password" placeholder="Set A Password" required autocomplete="off"/>
-                    </div>
-
-                    <button type="submit" class="button button-block"/>Get Started</button>
-
-                </form>
-
-            </div>
-
-        </div><!-- tab-content -->
-
-    </div> <!-- /form -->
-
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-    <script src="/public/js/login.js"></script>
+	<link rel="stylesheet" href="/public/css/style.min.css">
+	<script src="/public/js/scripts.min.js"></script>
+	<script src="/public/js/common.js"></script>
 
 </body>
 </html>

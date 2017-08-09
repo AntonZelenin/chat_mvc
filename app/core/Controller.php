@@ -3,7 +3,7 @@
 class Controller {
 
     public function model($model){
-        $file = ROOT.'\\app\\models' . $model . '.php';
+        $file = ROOT.'\\app\\models\\' . $model . '.php';
 
         if (file_exists($file)) {
             require $file;

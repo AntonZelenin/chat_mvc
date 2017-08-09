@@ -1,0 +1,10 @@
+<svg width="16" height="16" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Canvas" transform="translate(-1428 188)">
+<g id="Vector">
+<use xlink:href="#icon-edit" transform="translate(1428.5 -187.502)" fill="#FFFFFF"/>
+</g>
+</g>
+<defs>
+<path id="icon-edit" d="M 0 11.8771L 0 15.0021L 3.125 15.0021L 12.3417 5.78542L 9.21667 2.66042L 0 11.8771ZM 14.7583 3.36875C 15.0833 3.04375 15.0833 2.51875 14.7583 2.19375L 12.8083 0.24375C 12.4833 -0.08125 11.9583 -0.08125 11.6333 0.24375L 10.1083 1.76875L 13.2333 4.89375L 14.7583 3.36875Z"/>
+</defs>
+</svg>

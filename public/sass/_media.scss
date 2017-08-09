@@ -1,0 +1,243 @@
+@import "vars";
+
+/*==========  Desktop First  ========== */
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1200px) {
+	/* */
+}
+
+@media only screen and (max-width: 1000px) {
+
+	.post-list__footer {
+		width: calc(100% - 320px);
+	}
+
+	.post-list__header {
+		width: calc(100% - 320px);
+	}
+
+	body {
+		background-color: #fff;
+	}
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+
+	.toggle-btn {
+		display: block;
+	}
+
+	.toggle-btn--fixed {
+		display: none;
+	}
+
+	.user-list-noscroll {
+		position: absolute;
+	}
+
+	.user-list {
+		position: absolute;
+		overflow-y: auto;
+	}
+
+	.user-list--narrow {
+		width: 85px;
+		padding-top: 40px;
+		padding-right: 0;
+		.user-list__header-logo {
+			display: none;
+		}
+		.user-list__edit {
+			display: none;
+		}
+		.user-list__search {
+			display: none;
+		}
+		.chat-list__item {
+			padding: 15px;
+		}
+		.chat-list__item-text {
+			display: none;
+		}
+		.chat-list__user-time {
+			display: none;
+		}
+		.chat-list__message-count {
+			top: 15px;
+			right: 15px;
+		}
+	}
+
+	.user-list.show {
+		width: 320px;
+		padding-top: 15px;
+		padding-right: 0;
+		.user-list__header-logo {
+			display: block;
+		}
+		.user-list__edit {
+			display: block;
+			margin-right: 40px;
+		}
+		.user-list__search {
+			display: block;
+		}
+		.chat-list__item {
+			padding: 12px 50px 12px 30px;
+		}
+		.chat-list__item-text {
+			display: block;
+		}
+		.chat-list__user-time {
+			display: block;
+		}
+		.chat-list__message-count {
+			right: 16px;
+			top: 50%;
+		}
+	}
+
+	.message-field__wrapper {
+		width: 72%;
+	}
+
+	.post-list {
+		margin-left: 85px;
+	}
+
+	.post-list__header {
+		width: calc(100% - 85px);
+	}
+
+	.post-list__footer {
+		width: calc(100% - 85px);
+	}
+
+	.login-form-wrapper {
+		// width: 600px;
+	}
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 480px) {
+
+	.user-list {
+		left: -320px;
+		transition: all 0.4s;
+	}
+
+	.user-list.show {
+		left: 0;
+	} 
+
+	.post-list {
+		margin-left: 0;
+	}
+
+	.post-list__header {
+		padding-left: 0px;
+		width: 100%;
+	}
+
+	.toggle-btn--fixed {
+		display: block;
+		top: 18px;
+		left: 15px;
+		& span,
+		& span::before,
+		& span::after {
+			background-color: #9BA1A5;
+		}
+	}
+
+	.post-header__user {
+		margin-left: 50%;
+		transform: translateX(-50%);
+		margin-top: -10px;
+	}
+
+	.post-header__user-name,
+	.post-header__last-seen {
+		display: block;
+	}
+
+	.post-list__footer {
+		width: 100%;
+	}
+
+	.send-message-btn {
+		width: 26px;
+		height: 26px;
+		margin-top: -13px;
+		font-size: 0;
+		background: $accent url(../img/icon-send.svg) no-repeat 8px center;
+		background-size: 13px 12px;
+	}
+
+	.login-header {
+		height: 80px;
+		padding-top: 22px;
+	}
+
+	.login-header__img {
+		img {
+			width: 135px;
+		}
+	}
+
+	.login-main {
+		padding-bottom: 30px;
+	}
+
+	.login-form-wrapper {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.form__fields-wrapper {
+		padding: 25px 15px 35px;
+	}
+
+
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+	/* */
+}
+
+/*==========  Mobile First  ========== */
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+	/* */
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+	/* */
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+	/* */
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+	/* */
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+	/* */
+}

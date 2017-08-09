@@ -12,8 +12,8 @@ class Login extends Controller
     public function auth()
     {
         if (isset($_COOKIE['user_cookie'])) {
-            // $checker = new CookieChecker(new Database_PDO);
-            $checker = model('CookieChecker');
+            $checker = new CookieChecker(new Database_PDO);
+            // $checker = $this->model('CookieChecker');
 
             $user_cookie = $_COOKIE['user_cookie'];
 
