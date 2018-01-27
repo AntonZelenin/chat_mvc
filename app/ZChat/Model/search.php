@@ -17,7 +17,7 @@ function make_user($name, $img, $message){
     if(!empty($_GET['template'])){
         $template = $_GET['template'];
 
-    $database = new Database_PDO;
+    $database = new DatabasePDO;
 
     $query = $database->get_connection()->prepare("SELECT * FROM chat_users WHERE username LIKE :template");
     $query->execute(array('template' => $template."%"));

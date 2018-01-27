@@ -5,7 +5,7 @@ class LoginPasswordChecker
 
     private $database_connection;
 
-    public function __construct(Database_PDO $database)
+    public function __construct(DatabasePDO $database)
     {
         $this->database_connection = $database->get_connection();
     }

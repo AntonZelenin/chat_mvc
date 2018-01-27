@@ -1,14 +1,29 @@
-<?php
+<?php namespace ZChat\Model;
 
+/**
+ * Class Converter
+ * @package ZChat\Model
+ */
 class Converter
 {
+    /**
+     * @var object
+     */
     private $database_connection;
 
-    public function __construct(Database_PDO $database)
+    /**
+     * Converter constructor.
+     * @param DatabasePDO $database
+     */
+    public function __construct(DatabasePDO $database)
     {
         $this->database_connection = $database->get_connection();
     }
 
+    /**
+     * @param string $login
+     * @return int
+     */
     public function id_by_login(string $login) : int
     {
         $query = $this->database_connection->prepare("SELECT id FROM chat_users WHERE login=:login");
@@ -17,6 +32,10 @@ class Converter
         return $query->fetchColumn();
     }
 
+    /**
+     * @param string $cookie
+     * @return int
+     */
     public function id_by_cookie(string $cookie) : int
     {
         //в базе лежит не просто токен, там блин sha256 от токена! переделать

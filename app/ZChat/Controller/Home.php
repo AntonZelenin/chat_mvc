@@ -1,23 +1,31 @@
-<?php
+<?php namespace ZChat\Controller;
 
-class Home extends Controller
+use \ZChat\Core\DatabasePDO as DatabasePDO;
+
+/**
+ * Class Home
+ * @package ZChat\Controller
+ */
+class Home
 {
-
+    /**
+     *
+     */
     public function index()
     {
-        $database = new Database_PDO;
-        $is_authorized = false;
+        $database = new DatabasePDO();
+        $isAuthorized = false;
 
         if (isset($_COOKIE['user_cookie'])) {
             $checker = new CookieChecker($database);
 
             $user_cookie = $_COOKIE['user_cookie'];
-            $is_authorized = $checker->is_valid_cookie($user_cookie);
+            $isAuthorized = $checker->is_valid_cookie($user_cookie);
         }
 
-        if (!$is_authorized) {
+        if (!$isAuthorized) {
             $host = $_SERVER['HTTP_HOST'];
-            header("Location: http://$host/public/login/auth");
+            header("Location: http://$host/chat/login/auth");
             die;
         }
 

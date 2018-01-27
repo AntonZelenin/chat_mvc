@@ -1,5 +1,9 @@
-<?php
+<?php namespace ZChat\Model;
 
+/**
+ * Class CookieAssigner
+ * @package ZChat\Model
+ */
 class CookieAssigner
 {
 
@@ -7,7 +11,7 @@ class CookieAssigner
 
     private  $database_connection;
 
-    public function __construct(Database_PDO $database)
+    public function __construct(DatabasePDO $database)
     {
         $this->database_connection = $database->get_connection();
     }
@@ -32,7 +36,7 @@ class CookieAssigner
 // class Cookie_Saver extends Cookie_Assigner
 // {
 
-    // public function __construct(Database_PDO $database)
+    // public function __construct(DatabasePDO $database)
     // {
     //     $this->database_connection = $database->get_connection();
     // }

@@ -4,7 +4,7 @@ class TextMessageSaver
 {
     private $database_connection;
 
-    public function __construct(Database_PDO $database)
+    public function __construct(DatabasePDO $database)
     {
         $this->database_connection = $database->get_connection();
     }
@@ -18,8 +18,8 @@ class TextMessageSaver
 
         $params = [
             'group_id' => $message->get_group_id(),
-            'message_text' => $message->get_text();
-            'sender_id' => $message->get_sender_id();
+            'message_text' => $message->get_text(),
+            'sender_id' => $message->get_sender_id()
         ];
 
         $query->execute($params);
